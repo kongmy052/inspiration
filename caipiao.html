@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .create {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgb(36, 36, 36);
+            bottom: 30%;
+            left: 50%;
+            margin-left: -40px;
+            color: aliceblue;
+            font-weight: 700px;
+            font-size: 20px;
+            letter-spacing: 3px;
+        }
+
+        .wrapper {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            margin-left: -175px;
+            width: 350px;
+            height: 50px;
+            justify-content: space-between;
+            align-items: center;
+            display: none;
+        }
+
+        .wrapper div {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: aliceblue;
+            background-color: rgb(182, 0, 32);
+
+        }
+
+        .wrapper .last {
+            background-color: rgb(26, 85, 153);
+        }
+    </style>
+    <title>随机双色球</title>
+</head>
+
+<body>
+    <h1>生成你的随机双色球</h1>
+    <div class="wrapper">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class="last"></div>
+    </div>
+    <button class="create">生成</button>
+</body>
+<script>
+    let wrapper = document.querySelector('.wrapper');
+    let wrappers = document.querySelectorAll('.wrapper div');
+    let create = document.querySelector('.create');
+    create.addEventListener("click", (props) => {
+        let arr = randomCreate();
+        wrapper.style.display = 'flex';
+        wrappers.forEach((item, index) => {
+            item.innerHTML = arr[index];
+        })
+    })
+    function getIntNumber(min, max, num, isSort) {
+        let arr = [];
+        let temp = 0;
+        for (let i = 0; i < num; i++) {
+            temp = Math.floor(Math.random() * (max - min + 1) + min);
+            if (!arr.includes(temp)) {
+                arr.push(temp);
+            }
+            else {
+                i--;
+                continue;
+            }
+        }
+        if (isSort) {
+            arr.sort((a, b) => a - b);
+            return arr;
+        }
+        else {
+            return arr;
+        }
+    }
+    function randomCreate() {
+        let a = 0, b = 0, c, e;
+        do {
+            a = getIntNumber(0, 3, 1);
+            b = getIntNumber(0, 6 - a, 1);
+            c = 6 - a - b;
+        } while (a != 0 && b != 0)
+        let a_arr, b_arr, c_arr;
+        a_arr = getIntNumber(1, 11, a, true);
+        b_arr = getIntNumber(12, 22, b, true);
+        c_arr = getIntNumber(23, 33, c, true);
+        e = getIntNumber(1, 16, 1);
+        let res = [...a_arr, ...b_arr, ...c_arr, ...e];
+        return res;
+    }
+</script>
+
+</html>
